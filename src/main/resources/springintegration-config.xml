@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       					   http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       					   http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+       					   http://www.springframework.org/schema/integration/xml http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd">
+       					           
+    <jms:message-driven-channel-adapter id="inputMQJMSAdapter" destination="inputJMSQueue" channel="inputMQChannel" connection-factory="jmsConnectionFactory"/>	
+        	
+	<int:channel id="inputMQChannel" />
+	
+	<int-xml:validating-filter id="inputXMLMessageValidator"
+    			input-channel="inputMQChannel" 
+    			output-channel="validXMLChannel" 
+  				discard-channel="invalidXMLChannel" 
+ 				schema-type="xml-schema"
+    			throw-exception-on-rejection="false" 
+ 				schema-location="classpath:schema_validate.xsd">
+ 	</int-xml:validating-filter>
+ 	
+ 	<int:channel id="validXMLChannel"/>
+ 	
+    <int:channel id="invalidXMLChannel"/>
+	
+	<int:service-activator id="validXMLServiceActivator" input-channel="validXMLChannel" output-channel="transformerChannel"
+                                   ref="validMessageProcessor" method="processValidMsg"/>
+      
+    <int:service-activator id="invalidXMLServiceActivator" input-channel="invalidXMLChannel"
+                                   ref="invalidMessageProcessor" method="processInvalidMsg"/>  
+                                                               
+    <int:channel id="transformerChannel"/>
+	       
+    <int-xml:xslt-transformer id="xsltTransformerWithResource"
+    	input-channel="transformerChannel" output-channel="outputMQChannel"  	
+    	xsl-resource="classpath:transformer.xslt"/>    	
+       	                                       
+    <int:channel id="outputMQChannel"/>  
+    
+    <jms:outbound-channel-adapter id="outputMQJMSAdapter" destination="outputJMSQueue" channel="outputMQChannel" connection-factory="jmsConnectionFactory"/>                
+    	                                     
+</beans>

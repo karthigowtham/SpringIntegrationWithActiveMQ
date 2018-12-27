@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+	<CstmrCdtTrfInitn>
+		<GrpHdr>
+			<MsgId>ABC/090928/CCT001</MsgId>
+			<CtrlSum>11500000</CtrlSum>
+			<Nm>ABC Corporation</Nm>
+			<PstlAdr>
+				<StrtNm>Times Square</StrtNm>
+				<BldgNb>7</BldgNb>
+				<PstCd>NY 10036</PstCd>
+				<TwnNm>New York</TwnNm>
+				<Ctry>US</Ctry>
+			</PstlAdr>
+		</GrpHdr>
+	</CstmrCdtTrfInitn>
+</Document>

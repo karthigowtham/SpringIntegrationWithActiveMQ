@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+	<xs:element name="Document">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CstmrCdtTrfInitn"
+					type="CstmrCdtTrfInitn" minOccurs='1' maxOccurs='1' />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="CstmrCdtTrfInitn">
+		<xs:sequence>
+			<xs:element name="GrpHdr" type="GrpHdr" minOccurs='1'
+				maxOccurs='unbounded' />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GrpHdr">
+		<xs:sequence>
+			<xs:element name="MsgId" type='xs:string' />
+			<xs:element name="CtrlSum" type='xs:int' />
+			<xs:element name="Nm" type='xs:string' />
+			<xs:element name="PstlAdr" type="Address" minOccurs='1' maxOccurs='1'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="StrtNm" type='xs:string' />
+			<xs:element name="BldgNb" type='xs:int' />
+			<xs:element name="PstCd" type='xs:string' />
+			<xs:element name="TwnNm" type='xs:string' />
+			<xs:element name="Ctry" type='xs:string' />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
